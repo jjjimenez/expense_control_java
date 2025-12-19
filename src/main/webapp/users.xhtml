@@ -17,20 +17,21 @@
         <div class="users-container">
             <h1>Gestión de Usuarios</h1>
             
-            <!-- Botón para crear nuevo usuario -->
-            <div class="actions-bar">
-                <p:commandButton value="Nuevo Usuario" 
-                               icon="pi pi-plus"
-                               styleClass="p-button-success"
-                               onclick="PF('userDialog').show();"
-                               update="userForm"
-                               process="@this">
-                    <f:setPropertyActionListener target="#{userController.selectedUser}" value="#{userController.newUser}"/>
-                    <f:setPropertyActionListener target="#{userController.editMode}" value="false"/>
-                </p:commandButton>
-            </div>
+            <h:form id="mainForm">
+                <!-- Botón para crear nuevo usuario -->
+                <div class="actions-bar">
+                    <p:commandButton value="Nuevo Usuario" 
+                                   icon="pi pi-plus"
+                                   styleClass="p-button-success"
+                                   onclick="PF('userDialog').show();"
+                                   update="userForm"
+                                   process="@this">
+                        <f:setPropertyActionListener target="#{userController.selectedUser}" value="#{userController.newUser}"/>
+                        <f:setPropertyActionListener target="#{userController.editMode}" value="false"/>
+                    </p:commandButton>
+                </div>
 
-            <!-- Tabla de usuarios -->
+                <!-- Tabla de usuarios -->
             <p:dataTable id="usersTable" 
                         value="#{userController.users}" 
                         var="user"
@@ -93,6 +94,7 @@
                     </p:commandButton>
                 </p:column>
             </p:dataTable>
+            </h:form>
         </div>
 
         <!-- Dialog para crear/editar usuario -->
@@ -182,7 +184,7 @@
                     
                     <p:commandButton value="#{userController.editMode ? 'Actualizar' : 'Crear'}" 
                                    action="#{userController.saveUser}"
-                                   update="usersTable messages"
+                                   update="mainForm:usersTable messages"
                                    oncomplete="if (args &amp;&amp; !args.validationFailed) PF('userDialog').hide();"
                                    styleClass="p-button-success"/>
                 </div>
@@ -213,7 +215,7 @@
                     
                     <p:commandButton value="Eliminar" 
                                    action="#{userController.deleteUser}"
-                                   update="usersTable messages"
+                                   update="mainForm:usersTable messages"
                                    oncomplete="PF('deleteDialog').hide();"
                                    styleClass="p-button-danger"/>
                 </div>

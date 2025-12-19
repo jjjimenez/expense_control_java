@@ -11,10 +11,11 @@ import java.util.Optional;
 @ApplicationScoped
 public class UserService {
     
+    @Inject
     private UserDAO userDAO;
     
     public UserService() {
-        this.userDAO = new UserDAO();
+        // Constructor vacío para CDI
     }
     
     public User createUser(User user) {

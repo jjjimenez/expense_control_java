@@ -1,11 +1,11 @@
 package com.expensecontrol.dao;
 
 import com.expensecontrol.model.User;
+import com.expensecontrol.config.DatabaseConfig;
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
@@ -13,14 +13,12 @@ import java.util.Optional;
 @ApplicationScoped
 public class UserDAO {
     
-    private EntityManagerFactory emf;
-    
     public UserDAO() {
-        emf = Persistence.createEntityManagerFactory("expenseControlPU");
+        // Constructor vacío para CDI
     }
     
     private EntityManager getEntityManager() {
-        return emf.createEntityManager();
+        return DatabaseConfig.getEntityManagerFactory().createEntityManager();
     }
     
     public User save(User user) {
