@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/template/layout.xhtml">
+    <ui:define name="title">Gestión de Usuarios - Expense Control</ui:define>
+    
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewAction action="#{authController.requireAdmin()}"/>
+        </f:metadata>
+
+        <div class="users-container">
+            <h1>Gestión de Usuarios</h1>
+
+            <h:form id="usersForm">
+                <!-- Toolbar -->
+                <p:toolbar>
+                    <f:facet name="left">
+                        <p:commandButton value="Nuevo Usuario" 
+                                       icon="pi pi-plus"
+                                       action="#{userController.prepareNewUser}"
+                                       update="userDialog"
+                                       oncomplete="PF('userDialog').show()"
+                                       styleClass="p-button-success"/>
+                    </f:facet>
+                    
+                    <f:facet name="right">
+                        <p:commandButton value="Actualizar" 
+                                       icon="pi pi-refresh"
+                                       action="#{userController.loadUsers}"
+                                       update="usersTable"/>
+                    </f:facet>
+                </p:toolbar>
+
+                <!-- Tabla de usuarios -->
+                <p:dataTable id="usersTable" 
+                           value="#{userController.users}" 
+                           var="user"
+                           selection="#{userController.selectedUser}"
+                           selectionMode="single"
+                           rowKey="#{user.id}"
+                           paginator="true"
+                           rows="10"
+                           paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                           rowsPerPageTemplate="5,10,15"
+                           emptyMessage="No se encontraron usuarios"
+                           styleClass="users-table">
+                    
+                    <p:column headerText="ID" sortBy="#{user.id}">
+                        <h:outputText value="#{user.id}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Usuario" sortBy="#{user.username}" filterBy="#{user.username}">
+                        <h:outputText value="#{user.username}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Nombre Completo" sortBy="#{user.firstName}">
+                        <h:outputText value="#{user.fullName}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Email" sortBy="#{user.email}" filterBy="#{user.email}">
+                        <h:outputText value="#{user.email}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Rol" sortBy="#{user.role}">
+                        <p:tag value="#{user.role}" 
+                               severity="#{user.role == 'ADMIN' ? 'danger' : 'info'}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Estado" sortBy="#{user.active}">
+                        <p:tag value="#{user.active ? 'Activo' : 'Inactivo'}" 
+                               severity="#{user.active ? 'success' : 'warning'}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Fecha Creación" sortBy="#{user.createdAt}">
+                        <h:outputText value="#{user.createdAt}">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    
+                    <p:column headerText="Acciones" exportable="false">
+                        <p:commandButton icon="pi pi-pencil" 
+                                       title="Editar"
+                                       action="#{userController.prepareEditUser}"
+                                       update="userDialog"
+                                       oncomplete="PF('userDialog').show()"
+                                       styleClass="p-button-rounded p-button-text p-button-info">
+                            <f:setPropertyActionListener target="#{userController.selectedUser}" value="#{user}"/>
+                        </p:commandButton>
+                        
+                        <p:commandButton icon="#{user.active ? 'pi pi-ban' : 'pi pi-check'}" 
+                                       title="#{user.active ? 'Desactivar' : 'Activar'}"
+                                       action="#{userController.toggleUserStatus}"
+                                       update="usersTable"
+                                       styleClass="p-button-rounded p-button-text #{user.active ? 'p-button-warning' : 'p-button-success'}"
+                                       disabled="#{user.id == authController.currentUser.id}">
+                            <f:setPropertyActionListener target="#{userController.selectedUser}" value="#{user}"/>
+                            <p:confirm header="Confirmación" 
+                                     message="¿Está seguro de #{user.active ? 'desactivar' : 'activar'} este usuario?"
+                                     icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
+                        
+                        <p:commandButton icon="pi pi-trash" 
+                                       title="Eliminar"
+                                       action="#{userController.deleteUser}"
+                                       update="usersTable"
+                                       styleClass="p-button-rounded p-button-text p-button-danger"
+                                       disabled="#{user.id == authController.currentUser.id}">
+                            <f:setPropertyActionListener target="#{userController.selectedUser}" value="#{user}"/>
+                            <p:confirm header="Confirmación" 
+                                     message="¿Está seguro de eliminar este usuario? Esta acción no se puede deshacer."
+                                     icon="pi pi-exclamation-triangle"/>
+                        </p:commandButton>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+
+            <!-- Dialog para crear/editar usuario -->
+            <p:dialog id="userDialog" 
+                    widgetVar="userDialog" 
+                    header="#{userController.editMode ? 'Editar Usuario' : 'Nuevo Usuario'}"
+                    modal="true" 
+                    resizable="false" 
+                    width="600"
+                    showEffect="fade" 
+                    hideEffect="fade">
+                
+                <h:form id="userForm">
+                    <p:panelGrid columns="2" styleClass="user-form">
+                        <p:outputLabel for="username" value="Usuario:"/>
+                        <p:inputText id="username" 
+                                   value="#{userController.newUser.username}"
+                                   required="true"
+                                   requiredMessage="El usuario es requerido"
+                                   validatorMessage="El usuario debe tener entre 3 y 50 caracteres">
+                            <f:validateLength minimum="3" maximum="50"/>
+                        </p:inputText>
+                        
+                        <p:outputLabel for="email" value="Email:"/>
+                        <p:inputText id="email" 
+                                   value="#{userController.newUser.email}"
+                                   required="true"
+                                   requiredMessage="El email es requerido"
+                                   validatorMessage="Formato de email inválido">
+                            <f:validateRegex pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"/>
+                        </p:inputText>
+                        
+                        <p:outputLabel for="firstName" value="Nombre:"/>
+                        <p:inputText id="firstName" 
+                                   value="#{userController.newUser.firstName}"
+                                   required="true"
+                                   requiredMessage="El nombre es requerido"
+                                   validatorMessage="El nombre no puede exceder 100 caracteres">
+                            <f:validateLength maximum="100"/>
+                        </p:inputText>
+                        
+                        <p:outputLabel for="lastName" value="Apellido:"/>
+                        <p:inputText id="lastName" 
+                                   value="#{userController.newUser.lastName}"
+                                   required="true"
+                                   requiredMessage="El apellido es requerido"
+                                   validatorMessage="El apellido no puede exceder 100 caracteres">
+                            <f:validateLength maximum="100"/>
+                        </p:inputText>
+                        
+                        <p:outputLabel for="role" value="Rol:"/>
+                        <p:selectOneMenu id="role" 
+                                       value="#{userController.newUser.role}"
+                                       required="true">
+                            <f:selectItems value="#{userController.userRoles}" 
+                                         var="role" 
+                                         itemLabel="#{role}" 
+                                         itemValue="#{role}"/>
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel for="active" value="Activo:"/>
+                        <p:selectBooleanCheckbox id="active" 
+                                               value="#{userController.newUser.active}"/>
+                        
+                        <p:outputLabel for="password" value="Contraseña:"/>
+                        <p:password id="password" 
+                                  value="#{userController.newUser.password}"
+                                  required="#{!userController.editMode}"
+                                  requiredMessage="La contraseña es requerida"
+                                  feedback="false"
+                                  placeholder="#{userController.editMode ? 'Dejar vacío para mantener actual' : ''}">
+                            <f:validateLength minimum="6" disabled="#{userController.editMode and empty userController.newUser.password}"/>
+                        </p:password>
+                        
+                        <p:outputLabel for="confirmPassword" value="Confirmar Contraseña:"/>
+                        <p:password id="confirmPassword" 
+                                  value="#{userController.confirmPassword}"
+                                  required="#{!userController.editMode or not empty userController.newUser.password}"
+                                  requiredMessage="Debe confirmar la contraseña"
+                                  feedback="false"/>
+                    </p:panelGrid>
+                    
+                    <div class="dialog-actions">
+                        <p:commandButton value="Cancelar" 
+                                       icon="pi pi-times"
+                                       onclick="PF('userDialog').hide()"
+                                       type="button"
+                                       styleClass="p-button-secondary"/>
+                        
+                        <p:commandButton value="Guardar" 
+                                       icon="pi pi-check"
+                                       action="#{userController.saveUser}"
+                                       update="usersForm:usersTable"
+                                       oncomplete="if (args.validationFailed) { return; } PF('userDialog').hide();"
+                                       styleClass="p-button-success"/>
+                    </div>
+                </h:form>
+            </p:dialog>
+
+            <!-- Confirmación -->
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Sí" type="button" styleClass="p-button-success p-confirm-dialog-yes"/>
+                <p:commandButton value="No" type="button" styleClass="p-button-secondary p-confirm-dialog-no"/>
+            </p:confirmDialog>
+        </div>
+    </ui:define>
+</ui:composition>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Login - Expense Control</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <h:outputStylesheet library="css" name="login.css"/>
+</h:head>
+
+<h:body>
+    <f:metadata>
+        <f:viewAction action="#{authController.loggedIn ? 'dashboard' : null}"/>
+    </f:metadata>
+
+    <div class="login-wrapper">
+        <div class="login-container">
+            <div class="login-header">
+                <i class="pi pi-chart-line login-icon"></i>
+                <h1>Expense Control</h1>
+                <p>Sistema de Control de Gastos</p>
+            </div>
+
+            <h:form styleClass="login-form">
+                <p:messages id="messages" showDetail="false" closable="true"/>
+
+                <div class="p-field">
+                    <span class="p-float-label">
+                        <p:inputText id="username" value="#{authController.username}" 
+                                   required="true" requiredMessage="El usuario es requerido"
+                                   styleClass="login-input">
+                            <f:validateLength minimum="3" maximum="50"/>
+                        </p:inputText>
+                        <p:outputLabel for="username" value="Usuario"/>
+                    </span>
+                </div>
+
+                <div class="p-field">
+                    <span class="p-float-label">
+                        <p:password id="password" value="#{authController.password}" 
+                                  required="true" requiredMessage="La contraseña es requerida"
+                                  feedback="false" styleClass="login-input">
+                            <f:validateLength minimum="3"/>
+                        </p:password>
+                        <p:outputLabel for="password" value="Contraseña"/>
+                    </span>
+                </div>
+
+                <div class="login-actions">
+                    <p:commandButton value="Iniciar Sesión" 
+                                   action="#{authController.login}"
+                                   styleClass="login-button"
+                                   icon="pi pi-sign-in"
+                                   update="messages"
+                                   ajax="false"/>
+                </div>
+
+                <div class="login-info">
+                    <p:panel header="Información de Acceso" styleClass="info-panel">
+                        <p><strong>Usuario por defecto:</strong> admin</p>
+                        <p><strong>Contraseña:</strong> admin123</p>
+                        <p><small>Este usuario se crea automáticamente si no existe ningún administrador.</small></p>
+                    </p:panel>
+                </div>
+            </h:form>
+        </div>
+    </div>
+</h:body>
+</html>
