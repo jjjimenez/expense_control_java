@@ -83,9 +83,7 @@
                                 <div class="stat-content">
                                     <h3>Fecha de Registro</h3>
                                     <p class="stat-text">
-                                        <h:outputText value="#{authController.currentUser.createdAt}">
-                                            <f:convertDateTime pattern="dd/MM/yyyy HH:mm"/>
-                                        </h:outputText>
+                                        <h:outputText value="#{authController.currentUser.createdAt != null ? authController.currentUser.createdAt.toString() : 'No disponible'}"/>
                                     </p>
                                 </div>
                             </div>

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/template/layout.xhtml">
+    <ui:define name="title">Gestión de Usuarios - Expense Control</ui:define>
+    
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewAction action="#{authController.requireLogin()}"/>
+            <f:viewAction action="#{authController.requireAdmin()}"/>
+        </f:metadata>
+
+        <div class="users-container">
+            <h1>Gestión de Usuarios</h1>
+            
+            <!-- Botón para crear nuevo usuario -->
+            <div class="actions-bar">
+                <p:commandButton value="Nuevo Usuario" 
+                               icon="pi pi-plus"
+                               styleClass="p-button-success"
+                               onclick="PF('userDialog').show();"
+                               update="userForm"
+                               process="@this">
+                    <f:setPropertyActionListener target="#{userController.selectedUser}" value="#{userController.newUser}"/>
+                    <f:setPropertyActionListener target="#{userController.editMode}" value="false"/>
+                </p:commandButton>
+            </div>
+
+            <!-- Tabla de usuarios -->
+            <p:dataTable id="usersTable" 
+                        value="#{userController.users}" 
+                        var="user"
+                        paginator="true" 
+                        rows="10"
+                        paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                        rowsPerPageTemplate="5,10,15"
+                        emptyMessage="No hay usuarios registrados"
+                        styleClass="users-table">
+                
+                <p:column headerText="ID" sortBy="#{user.id}">
+                    <h:outputText value="#{user.id}"/>
+                </p:column>
+                
+                <p:column headerText="Usuario" sortBy="#{user.username}">
+                    <h:outputText value="#{user.username}"/>
+                </p:column>
+                
+                <p:column headerText="Nombre Completo" sortBy="#{user.fullName}">
+                    <h:outputText value="#{user.fullName}"/>
+                </p:column>
+                
+                <p:column headerText="Email" sortBy="#{user.email}">
+                    <h:outputText value="#{user.email}"/>
+                </p:column>
+                
+                <p:column headerText="Rol" sortBy="#{user.role}">
+                    <p:badge value="#{user.role}" 
+                            severity="#{user.role == 'ADMIN' ? 'danger' : 'info'}"/>
+                </p:column>
+                
+                <p:column headerText="Estado" sortBy="#{user.active}">
+                    <p:badge value="#{user.active ? 'Activo' : 'Inactivo'}" 
+                            severity="#{user.active ? 'success' : 'warning'}"/>
+                </p:column>
+                
+                <p:column headerText="Fecha Registro" sortBy="#{user.createdAt}">
+                    <h:outputText value="#{user.createdAt != null ? user.createdAt.toString().substring(0,10) : 'N/A'}"/>
+                </p:column>
+                
+                <p:column headerText="Acciones" exportable="false">
+                    <p:commandButton icon="pi pi-pencil" 
+                                   title="Editar"
+                                   styleClass="p-button-rounded p-button-info p-button-sm"
+                                   onclick="PF('userDialog').show();"
+                                   update="userForm"
+                                   process="@this">
+                        <f:setPropertyActionListener target="#{userController.selectedUser}" value="#{user}"/>
+                        <f:setPropertyActionListener target="#{userController.editMode}" value="true"/>
+                    </p:commandButton>
+                    
+                    <p:commandButton icon="pi pi-trash" 
+                                   title="Eliminar"
+                                   styleClass="p-button-rounded p-button-danger p-button-sm"
+                                   onclick="PF('deleteDialog').show();"
+                                   update="deleteForm"
+                                   process="@this"
+                                   style="margin-left: 5px;">
+                        <f:setPropertyActionListener target="#{userController.selectedUser}" value="#{user}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </div>
+
+        <!-- Dialog para crear/editar usuario -->
+        <p:dialog header="#{userController.editMode ? 'Editar Usuario' : 'Nuevo Usuario'}" 
+                  widgetVar="userDialog" 
+                  modal="true" 
+                  resizable="false"
+                  width="500"
+                  showEffect="fade" 
+                  hideEffect="fade">
+            
+            <h:form id="userForm">
+                <div class="p-fluid">
+                    <div class="p-field">
+                        <p:outputLabel for="username" value="Usuario:"/>
+                        <p:inputText id="username" 
+                                   value="#{userController.selectedUser.username}"
+                                   required="true"
+                                   requiredMessage="El usuario es requerido"/>
+                    </div>
+                    
+                    <div class="p-field">
+                        <p:outputLabel for="firstName" value="Nombre:"/>
+                        <p:inputText id="firstName" 
+                                   value="#{userController.selectedUser.firstName}"
+                                   required="true"
+                                   requiredMessage="El nombre es requerido"/>
+                    </div>
+                    
+                    <div class="p-field">
+                        <p:outputLabel for="lastName" value="Apellido:"/>
+                        <p:inputText id="lastName" 
+                                   value="#{userController.selectedUser.lastName}"
+                                   required="true"
+                                   requiredMessage="El apellido es requerido"/>
+                    </div>
+                    
+                    <div class="p-field">
+                        <p:outputLabel for="email" value="Email:"/>
+                        <p:inputText id="email" 
+                                   value="#{userController.selectedUser.email}"
+                                   required="true"
+                                   requiredMessage="El email es requerido"/>
+                    </div>
+                    
+                    <div class="p-field">
+                        <p:outputLabel for="role" value="Rol:"/>
+                        <p:selectOneMenu id="role" 
+                                       value="#{userController.selectedUser.role}"
+                                       required="true">
+                            <f:selectItem itemLabel="Seleccione un rol" itemValue="" noSelectionOption="true"/>
+                            <f:selectItem itemLabel="Usuario" itemValue="USER"/>
+                            <f:selectItem itemLabel="Administrador" itemValue="ADMIN"/>
+                        </p:selectOneMenu>
+                    </div>
+                    
+                    <div class="p-field">
+                        <p:outputLabel for="active" value="Estado:"/>
+                        <p:selectBooleanCheckbox id="active" 
+                                               value="#{userController.selectedUser.active}"/>
+                        <p:outputLabel for="active" value="Activo" style="margin-left: 10px;"/>
+                    </div>
+                    
+                    <div class="p-field" rendered="#{!userController.editMode}">
+                        <p:outputLabel for="password" value="Contraseña:"/>
+                        <p:password id="password" 
+                                  value="#{userController.password}"
+                                  required="#{!userController.editMode}"
+                                  requiredMessage="La contraseña es requerida"
+                                  feedback="true"/>
+                    </div>
+                    
+                    <div class="p-field" rendered="#{!userController.editMode}">
+                        <p:outputLabel for="confirmPassword" value="Confirmar Contraseña:"/>
+                        <p:password id="confirmPassword" 
+                                  value="#{userController.confirmPassword}"
+                                  required="#{!userController.editMode}"
+                                  requiredMessage="La confirmación de contraseña es requerida"/>
+                    </div>
+                </div>
+                
+                <div class="dialog-buttons">
+                    <p:commandButton value="Cancelar" 
+                                   onclick="PF('userDialog').hide();"
+                                   styleClass="p-button-secondary"
+                                   process="@none"/>
+                    
+                    <p:commandButton value="#{userController.editMode ? 'Actualizar' : 'Crear'}" 
+                                   action="#{userController.saveUser}"
+                                   update="usersTable messages"
+                                   oncomplete="if (args &amp;&amp; !args.validationFailed) PF('userDialog').hide();"
+                                   styleClass="p-button-success"/>
+                </div>
+            </h:form>
+        </p:dialog>
+
+        <!-- Dialog de confirmación para eliminar -->
+        <p:dialog header="Confirmar Eliminación" 
+                  widgetVar="deleteDialog" 
+                  modal="true" 
+                  resizable="false"
+                  width="400"
+                  showEffect="fade" 
+                  hideEffect="fade">
+            
+            <h:form id="deleteForm">
+                <div class="delete-confirmation">
+                    <i class="pi pi-exclamation-triangle" style="font-size: 2rem; color: #e74c3c;"></i>
+                    <p>¿Está seguro que desea eliminar el usuario <strong>#{userController.selectedUser.username}</strong>?</p>
+                    <p style="color: #e74c3c; font-size: 0.9em;">Esta acción no se puede deshacer.</p>
+                </div>
+                
+                <div class="dialog-buttons">
+                    <p:commandButton value="Cancelar" 
+                                   onclick="PF('deleteDialog').hide();"
+                                   styleClass="p-button-secondary"
+                                   process="@none"/>
+                    
+                    <p:commandButton value="Eliminar" 
+                                   action="#{userController.deleteUser}"
+                                   update="usersTable messages"
+                                   oncomplete="PF('deleteDialog').hide();"
+                                   styleClass="p-button-danger"/>
+                </div>
+            </h:form>
+        </p:dialog>
+    </ui:define>
+</ui:composition>
+</html>

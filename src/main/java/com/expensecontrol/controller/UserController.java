@@ -7,7 +7,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
@@ -18,25 +17,23 @@ public class UserController implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
-    @Inject
     private UserService userService;
-    
-    @Inject
     private AuthController authController;
     
     private List<User> users;
     private User selectedUser;
     private User newUser;
     private boolean editMode;
+    private String password;
     private String confirmPassword;
+    
+    public UserController() {
+        this.userService = new UserService();
+    }
     
     @PostConstruct
     public void init() {
-        // Verificar permisos de administrador
-        String authCheck = authController.requireAdmin();
-        if (authCheck != null) {
-            return;
-        }
+        // Por ahora, simplificamos sin verificación de permisos
         
         loadUsers();
         newUser = new User();
@@ -49,6 +46,7 @@ public class UserController implements Serializable {
     
     public void prepareNewUser() {
         newUser = new User();
+        password = null;
         confirmPassword = null;
         editMode = false;
     }
@@ -63,6 +61,7 @@ public class UserController implements Serializable {
             newUser.setLastName(selectedUser.getLastName());
             newUser.setRole(selectedUser.getRole());
             newUser.setActive(selectedUser.getActive());
+            password = null;
             confirmPassword = null;
             editMode = true;
         }
@@ -76,6 +75,7 @@ public class UserController implements Serializable {
                     return;
                 }
                 
+                newUser.setPassword(password);
                 userService.createUser(newUser);
                 addSuccessMessage("Usuario creado exitosamente");
             } else {
@@ -95,8 +95,8 @@ public class UserController implements Serializable {
                     existingUser.setActive(newUser.getActive());
                     
                     // Actualizar contraseña solo si se proporcionó una nueva
-                    if (newUser.getPassword() != null && !newUser.getPassword().trim().isEmpty()) {
-                        userService.updateUserPassword(existingUser, newUser.getPassword());
+                    if (password != null && !password.trim().isEmpty()) {
+                        userService.updateUserPassword(existingUser, password);
                     } else {
                         userService.updateUser(existingUser);
                     }
@@ -159,12 +159,12 @@ public class UserController implements Serializable {
     }
     
     private boolean validateNewUser() {
-        if (newUser.getPassword() == null || newUser.getPassword().trim().isEmpty()) {
+        if (password == null || password.trim().isEmpty()) {
             addErrorMessage("La contraseña es requerida");
             return false;
         }
         
-        if (confirmPassword == null || !newUser.getPassword().equals(confirmPassword)) {
+        if (confirmPassword == null || !password.equals(confirmPassword)) {
             addErrorMessage("Las contraseñas no coinciden");
             return false;
         }
@@ -194,8 +194,8 @@ public class UserController implements Serializable {
         }
         
         // Validar contraseña solo si se proporcionó una nueva
-        if (newUser.getPassword() != null && !newUser.getPassword().trim().isEmpty()) {
-            if (confirmPassword == null || !newUser.getPassword().equals(confirmPassword)) {
+        if (password != null && !password.trim().isEmpty()) {
+            if (confirmPassword == null || !password.equals(confirmPassword)) {
                 addErrorMessage("Las contraseñas no coinciden");
                 return false;
             }
@@ -245,6 +245,14 @@ public class UserController implements Serializable {
     
     public void setEditMode(boolean editMode) {
         this.editMode = editMode;
+    }
+    
+    public String getPassword() {
+        return password;
+    }
+    
+    public void setPassword(String password) {
+        this.password = password;
     }
     
     public String getConfirmPassword() {

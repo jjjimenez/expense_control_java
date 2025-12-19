@@ -6,7 +6,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import java.io.Serializable;
 import java.util.Optional;
 
@@ -16,12 +15,22 @@ public class AuthController implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
-    @Inject
     private UserService userService;
     
     private String username;
     private String password;
     private User currentUser;
+    
+    public AuthController() {
+        this.userService = new UserService();
+    }
+    
+    public String checkIfLoggedIn() {
+        if (isLoggedIn()) {
+            return "dashboard?faces-redirect=true";
+        }
+        return null;
+    }
     
     public String login() {
         if (username == null || username.trim().isEmpty() || 

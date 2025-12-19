@@ -11,8 +11,11 @@ import java.util.Optional;
 @ApplicationScoped
 public class UserService {
     
-    @Inject
     private UserDAO userDAO;
+    
+    public UserService() {
+        this.userDAO = new UserDAO();
+    }
     
     public User createUser(User user) {
         // Encriptar la contraseña antes de guardar

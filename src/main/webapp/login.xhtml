@@ -13,7 +13,7 @@
 
 <h:body>
     <f:metadata>
-        <f:viewAction action="#{authController.loggedIn ? 'dashboard' : null}"/>
+        <f:viewAction action="#{authController.checkIfLoggedIn}"/>
     </f:metadata>
 
     <div class="login-wrapper">
