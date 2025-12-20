@@ -59,13 +59,15 @@
                 </p:column>
                 
                 <p:column headerText="Rol" sortBy="#{user.role}">
-                    <p:badge value="#{user.role}" 
-                            severity="#{user.role == 'ADMIN' ? 'danger' : 'info'}"/>
+                    <span class="badge #{user.role == 'ADMIN' ? 'badge-danger' : 'badge-info'}">
+                        #{user.role}
+                    </span>
                 </p:column>
                 
                 <p:column headerText="Estado" sortBy="#{user.active}">
-                    <p:badge value="#{user.active ? 'Activo' : 'Inactivo'}" 
-                            severity="#{user.active ? 'success' : 'warning'}"/>
+                    <span class="badge #{user.active ? 'badge-success' : 'badge-warning'}">
+                        #{user.active ? 'Activo' : 'Inactivo'}
+                    </span>
                 </p:column>
                 
                 <p:column headerText="Fecha Registro" sortBy="#{user.createdAt}">
