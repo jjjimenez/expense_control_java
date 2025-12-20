@@ -14,12 +14,12 @@
     <description>Sistema de control de gastos con JSF y PrimeFaces</description>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jsf.version>2.3.17</jsf.version>
-        <primefaces.version>12.0.0</primefaces.version>
-        <hibernate.version>5.6.15.Final</hibernate.version>
+        <jsf.version>2.2.20</jsf.version>
+        <primefaces.version>8.0</primefaces.version>
+        <hibernate.version>5.4.32.Final</hibernate.version>
         <mysql.version>8.0.33</mysql.version>
     </properties>
 
@@ -75,14 +75,14 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <version>5.0.1</version>
+            <version>3.4.5</version>
         </dependency>
 
         <!-- Servlet API -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>4.0.1</version>
+            <version>3.1.0</version>
             <scope>provided</scope>
         </dependency>
 
@@ -90,14 +90,14 @@
         <dependency>
             <groupId>org.jboss.weld.servlet</groupId>
             <artifactId>weld-servlet-core</artifactId>
-            <version>3.1.9.Final</version>
+            <version>2.4.8.Final</version>
         </dependency>
 
         <!-- Bean Validation -->
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>6.2.5.Final</version>
+            <version>6.1.7.Final</version>
         </dependency>
 
         <!-- Security -->
@@ -137,8 +137,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
 
