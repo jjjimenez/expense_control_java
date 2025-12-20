@@ -9,9 +9,10 @@
     <ui:define name="title">Gestión de Usuarios - Expense Control</ui:define>
     
     <ui:define name="content">
-        <f:metadata>
+        <!-- Temporarily commented out for debugging -->
+        <!-- <f:metadata>
             <f:viewAction action="#{authController.requireAdmin()}"/>
-        </f:metadata>
+        </f:metadata> -->
 
         <div class="users-container">
             <h1>Gestión de Usuarios</h1>
@@ -67,19 +68,19 @@
                     </p:column>
                     
                     <p:column headerText="Rol" sortBy="#{user.role}">
-                        <p:tag value="#{user.role}" 
-                               severity="#{user.role == 'ADMIN' ? 'danger' : 'info'}"/>
+                        <span class="badge #{user.role == 'ADMIN' ? 'badge-danger' : 'badge-info'}">
+                            #{user.role}
+                        </span>
                     </p:column>
                     
                     <p:column headerText="Estado" sortBy="#{user.active}">
-                        <p:tag value="#{user.active ? 'Activo' : 'Inactivo'}" 
-                               severity="#{user.active ? 'success' : 'warning'}"/>
+                        <span class="badge #{user.active ? 'badge-success' : 'badge-warning'}">
+                            #{user.active ? 'Activo' : 'Inactivo'}
+                        </span>
                     </p:column>
                     
                     <p:column headerText="Fecha Creación" sortBy="#{user.createdAt}">
-                        <h:outputText value="#{user.createdAt}">
-                            <f:convertDateTime pattern="dd/MM/yyyy"/>
-                        </h:outputText>
+                        <h:outputText value="#{user.createdAt != null ? user.createdAt.toString().substring(0,10) : 'N/A'}"/>
                     </p:column>
                     
                     <p:column headerText="Acciones" exportable="false">

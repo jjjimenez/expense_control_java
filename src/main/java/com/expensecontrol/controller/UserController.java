@@ -38,14 +38,30 @@ public class UserController implements Serializable {
     @PostConstruct
     public void init() {
         // Por ahora, simplificamos sin verificación de permisos
-        
-        loadUsers();
-        newUser = new User();
-        editMode = false;
+        try {
+            loadUsers();
+            newUser = new User();
+            editMode = false;
+        } catch (Exception e) {
+            System.err.println("Error initializing UserController: " + e.getMessage());
+            e.printStackTrace();
+            // Initialize with empty list if there's an error
+            users = new java.util.ArrayList<>();
+            newUser = new User();
+            editMode = false;
+        }
     }
     
     public void loadUsers() {
-        users = userService.findAllUsers();
+        try {
+            users = userService.findAllUsers();
+            System.out.println("Loaded " + (users != null ? users.size() : 0) + " users");
+        } catch (Exception e) {
+            System.err.println("Error loading users: " + e.getMessage());
+            e.printStackTrace();
+            users = new java.util.ArrayList<>();
+            addErrorMessage("Error al cargar los usuarios: " + e.getMessage());
+        }
     }
     
     public void prepareNewUser() {
