@@ -40,9 +40,25 @@ buildNumber.properties
 *.iml
 *.ipr
 .vscode/
-.settings/
-.project
-.classpath
+
+# Eclipse workspace files (exclude these but keep project configuration)
+.metadata/
+.recommenders/
+RemoteSystemsTempFiles/
+Servers/
+*.launch
+.factorypath
+.buildpath
+.target
+.tern-project
+.texlipse
+.springBeans
+.recommenders/
+
+# Keep Eclipse project configuration files
+# .project
+# .classpath  
+# .settings/
 
 # OS
 .DS_Store

@@ -3,21 +3,25 @@ package com.expensecontrol.controller;
 import com.expensecontrol.model.User;
 import com.expensecontrol.service.UserService;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-@ManagedBean
+@Named
 @ViewScoped
 public class UserController implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
+    @Inject
     private UserService userService;
+    
+    @Inject
     private AuthController authController;
     
     private List<User> users;
@@ -28,7 +32,7 @@ public class UserController implements Serializable {
     private String confirmPassword;
     
     public UserController() {
-        this.userService = new UserService();
+        // Constructor vacío para CDI
     }
     
     @PostConstruct

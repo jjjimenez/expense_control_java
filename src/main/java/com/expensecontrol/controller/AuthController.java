@@ -2,19 +2,21 @@ package com.expensecontrol.controller;
 
 import com.expensecontrol.model.User;
 import com.expensecontrol.service.UserService;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Optional;
 
-@ManagedBean
+@Named
 @SessionScoped
 public class AuthController implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
+    @Inject
     private UserService userService;
     
     private String username;
@@ -22,7 +24,7 @@ public class AuthController implements Serializable {
     private User currentUser;
     
     public AuthController() {
-        this.userService = new UserService();
+        // Constructor vacío para CDI
     }
     
     public String checkIfLoggedIn() {
