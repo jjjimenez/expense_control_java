@@ -157,7 +157,7 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <port>12000</port>
+                    <port>8080</port>
                     <path>/expense-control</path>
                     <server>tomcat-server</server>
                 </configuration>
