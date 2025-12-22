@@ -21,6 +21,10 @@
         <primefaces.version>8.0</primefaces.version>
         <hibernate.version>5.4.32.Final</hibernate.version>
         <mysql.version>8.0.33</mysql.version>
+        <!-- Tomcat 8.5 Manager defaults (override via -D on CLI) -->
+        <tomcat.url>http://localhost:8080/manager/text</tomcat.url>
+        <tomcat.username></tomcat.username>
+        <tomcat.password></tomcat.password>
     </properties>
 
     <dependencies>
@@ -157,9 +161,15 @@
                 <artifactId>tomcat7-maven-plugin</artifactId>
                 <version>2.2</version>
                 <configuration>
-                    <port>12000</port>
+                    <!-- Local run (embedded) -->
+                    <port>8080</port>
                     <path>/expense-control</path>
                     <server>tomcat-server</server>
+                    
+                    <!-- Remote deploy to Tomcat 8.5 Manager -->
+                    <url>${tomcat.url}</url>
+                    <username>${tomcat.username}</username>
+                    <password>${tomcat.password}</password>
                 </configuration>
             </plugin>
         </plugins>
