@@ -5,8 +5,8 @@ Este documento describe cómo importar y configurar el proyecto Expense Control 
 ## Requisitos Previos
 
 1. **Eclipse IDE for Enterprise Java and Web Developers** (versión 2021-06 o superior)
-2. **Java 11 JDK** instalado y configurado
-3. **Apache Tomcat 9.0** instalado
+2. **Java 8 JDK** instalado y configurado
+3. **Apache Tomcat 8.5** instalado
 4. **Maven** integrado en Eclipse (incluido por defecto)
 
 ## Plugins Necesarios
@@ -39,7 +39,7 @@ Asegúrate de tener instalados los siguientes plugins en Eclipse:
 3. Expande `Modulepath` o `Classpath`
 4. Si ves una versión incorrecta de JRE, selecciónala y haz clic en `Remove`
 5. Haz clic en `Add Library...` → `JRE System Library` → `Next`
-6. Selecciona `Workspace default JRE` o configura Java 11
+6. Selecciona `Workspace default JRE` o configura Java 8
 7. Haz clic en `Finish` → `Apply and Close`
 
 ### 3. Configurar Apache Tomcat
@@ -47,9 +47,9 @@ Asegúrate de tener instalados los siguientes plugins en Eclipse:
 1. Ve a `Window` → `Preferences`
 2. Navega a `Server` → `Runtime Environments`
 3. Haz clic en `Add...`
-4. Selecciona `Apache Tomcat v9.0` → `Next`
-5. En `Tomcat installation directory`, navega hasta tu instalación de Tomcat 9
-6. Asegúrate de que el JRE sea Java 11
+4. Selecciona `Apache Tomcat v8.5` → `Next`
+5. En `Tomcat installation directory`, navega hasta tu instalación de Tomcat 8.5
+6. Asegúrate de que el JRE sea Java 8
 7. Haz clic en `Finish` → `Apply and Close`
 
 ### 4. Configurar el Servidor en el Proyecto
@@ -57,11 +57,11 @@ Asegúrate de tener instalados los siguientes plugins en Eclipse:
 1. Clic derecho en el proyecto → `Properties`
 2. Ve a `Project Facets`
 3. Verifica que las siguientes facetas estén habilitadas:
-   - Java: 11
-   - Dynamic Web Module: 4.0
+   - Java: 1.8
+   - Dynamic Web Module: 3.1
    - JavaServer Faces: 2.2
-   - JPA: 2.2
-   - CDI (Contexts and Dependency Injection): 2.0
+   - JPA: 2.0
+   - CDI (Contexts and Dependency Injection): 1.2
 
 ### 5. Configurar Deployment Assembly
 
@@ -106,7 +106,7 @@ Asegúrate de tener instalados los siguientes plugins en Eclipse:
 
 1. Ve a la vista `Servers` (si no está visible: `Window` → `Show View` → `Servers`)
 2. Clic derecho en el área vacía → `New` → `Server`
-3. Selecciona `Apache Tomcat v9.0`
+3. Selecciona `Apache Tomcat v8.5`
 4. Haz clic en `Next`
 5. Agrega el proyecto `expense-control` a la lista `Configured`
 6. Haz clic en `Finish`
@@ -143,13 +143,13 @@ expense_control_java/
 
 ## Solución de Problemas Comunes
 
-### Error: "Project facet Java version 11 is not supported"
-- Asegúrate de tener Java 11 JDK instalado
+### Error: "Project facet Java version 1.8 is not supported"
+- Asegúrate de tener Java 8 JDK instalado
 - Ve a `Window` → `Preferences` → `Java` → `Installed JREs`
-- Agrega Java 11 JDK si no está presente
+- Agrega Java 8 JDK si no está presente
 
 ### Error: "The superclass javax.servlet.http.HttpServlet was not found"
-- Verifica que Tomcat 9.0 esté configurado correctamente
+- Verifica que Tomcat 8.5 esté configurado correctamente
 - Revisa que el proyecto tenga la faceta "Dynamic Web Module" habilitada
 
 ### Error: "Maven Dependencies not found"
