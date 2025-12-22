@@ -155,21 +155,49 @@
                 </configuration>
             </plugin>
 
-            <!-- Tomcat Maven Plugin for testing -->
+            <!-- Cargo Maven Plugin for Tomcat 8.5 -->
             <plugin>
-                <groupId>org.apache.tomcat.maven</groupId>
-                <artifactId>tomcat7-maven-plugin</artifactId>
-                <version>2.2</version>
+                <groupId>org.codehaus.cargo</groupId>
+                <artifactId>cargo-maven3-plugin</artifactId>
+                <version>1.10.9</version>
                 <configuration>
-                    <!-- Local run (embedded) -->
-                    <port>8080</port>
-                    <path>/expense-control</path>
-                    <server>tomcat-server</server>
-                    
-                    <!-- Remote deploy to Tomcat 8.5 Manager -->
-                    <url>${tomcat.url}</url>
-                    <username>${tomcat.username}</username>
-                    <password>${tomcat.password}</password>
+                    <!-- Local container (installed Tomcat 8.5) -->
+                    <container>
+                        <containerId>tomcat8x</containerId>
+                        <type>installed</type>
+                        <!-- Usa la variable de entorno TOMCAT_HOME -->
+                        <home>${env.TOMCAT_HOME}</home>
+                    </container>
+
+                    <!-- Configuración standalone para cargo:run -->
+                    <configuration>
+                        <type>standalone</type>
+                        <home>${project.build.directory}/cargo/tomcat8x</home>
+                        <properties>
+                            <cargo.servlet.port>8080</cargo.servlet.port>
+                        </properties>
+                    </configuration>
+
+                    <!-- Despliegue remoto a Tomcat 8.5 Manager -->
+                    <deployer>
+                        <type>remote</type>
+                        <properties>
+                            <cargo.remote.username>${tomcat.username}</cargo.remote.username>
+                            <cargo.remote.password>${tomcat.password}</cargo.remote.password>
+                            <cargo.tomcat.manager.url>${tomcat.url}</cargo.tomcat.manager.url>
+                        </properties>
+                    </deployer>
+
+                    <deployables>
+                        <deployable>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>${project.artifactId}</artifactId>
+                            <type>war</type>
+                            <properties>
+                                <context>expense-control</context>
+                            </properties>
+                        </deployable>
+                    </deployables>
                 </configuration>
             </plugin>
         </plugins>

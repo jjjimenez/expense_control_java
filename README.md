@@ -4,10 +4,10 @@ Sistema de control de gastos desarrollado con Java, JSF, PrimeFaces y MySQL.
 
 ## Características
 
-- **Backend**: Java 11 con JPA/Hibernate
-- **Frontend**: JSF 2.2 con PrimeFaces 12.0
+- **Backend**: Java 8 (1.8) con JPA/Hibernate
+- **Frontend**: JSF 2.2 con PrimeFaces 8.0
 - **Base de datos**: MySQL 8.0
-- **Servidor**: Compatible con Tomcat 9
+- **Servidor**: Compatible con Tomcat 8.5
 - **Autenticación**: Sistema de login con encriptación de contraseñas
 - **CRUD de usuarios**: Gestión completa de usuarios con roles
 - **Interfaz responsiva**: Diseño moderno con PrimeFaces
@@ -68,12 +68,12 @@ CREATE TABLE users (
 );
 ```
 
-## Despliegue en Tomcat 9
+## Despliegue en Tomcat 8.5
 
 ### Requisitos
 
-- Java 11 o superior
-- Apache Tomcat 9
+- Java 8 (1.8)
+- Apache Tomcat 8.5
 - MySQL 8.0
 - Acceso a la base de datos configurada
 
@@ -145,23 +145,23 @@ mvn test
 mvn clean package
 ```
 
-### Ejecutar con Tomcat Maven Plugin
+### Ejecutar con Cargo (Tomcat 8.5)
 ```bash
-mvn tomcat7:run
+mvn cargo:run
 ```
 
 ## Tecnologías Utilizadas
 
-- **Java 11**: Lenguaje de programación
+- **Java 8 (1.8)**: Lenguaje de programación
 - **Maven 3.9**: Gestión de dependencias y build
 - **JSF 2.2**: Framework web
-- **PrimeFaces 12.0**: Componentes UI
-- **JPA/Hibernate 5.6**: ORM
-- **MySQL Connector 8.0**: Driver de base de datos
-- **HikariCP 5.0**: Pool de conexiones
-- **BCrypt**: Encriptación de contraseñas
-- **Weld 3.1**: Implementación CDI
-- **SLF4J + Logback**: Logging
+- **PrimeFaces 8.0**: Componentes UI
+- **JPA/Hibernate 5.4.32.Final**: ORM
+- **MySQL Connector 8.0.33**: Driver de base de datos
+- **HikariCP 3.4.5**: Pool de conexiones
+- **BCrypt (jBCrypt 0.4)**: Encriptación de contraseñas
+- **Weld Servlet 2.4.8.Final**: Implementación CDI
+- **SLF4J 1.7 + Logback 1.2**: Logging
 
 ## Estructura de Archivos de Configuración
 
