@@ -218,10 +218,12 @@
             </p:dialog>
 
             <!-- Confirmación -->
-            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                <p:commandButton value="Sí" type="button" styleClass="p-button-success p-confirm-dialog-yes"/>
-                <p:commandButton value="No" type="button" styleClass="p-button-secondary p-confirm-dialog-no"/>
-            </p:confirmDialog>
+            <h:form id="confirmForm">
+                <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                    <p:commandButton value="Sí" type="button" styleClass="p-button-success p-confirm-dialog-yes"/>
+                    <p:commandButton value="No" type="button" styleClass="p-button-secondary p-confirm-dialog-no"/>
+                </p:confirmDialog>
+            </h:form>
         </div>
     </ui:define>
 </ui:composition>
