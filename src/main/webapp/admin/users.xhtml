@@ -96,7 +96,8 @@
                         <p:commandButton icon="#{user.active ? 'pi pi-ban' : 'pi pi-check'}" 
                                        title="#{user.active ? 'Deactivate' : 'Activate'}"
                                        action="#{userController.toggleUserStatus}"
-                                       update="usersTable"
+                                       process="@this"
+                                       update=":usersForm:usersTable,:messages"
                                        styleClass="p-button-rounded p-button-text #{user.active ? 'p-button-warning' : 'p-button-success'}"
                                        disabled="#{user.id == authController.currentUser.id}">
                             <f:setPropertyActionListener target="#{userController.selectedUser}" value="#{user}"/>
@@ -210,8 +211,9 @@
                         <p:commandButton value="Save" 
                                        icon="pi pi-check"
                                        action="#{userController.saveUser}"
-                                       update="usersForm:usersTable"
-                                       oncomplete="if (args.validationFailed) { return; } PF('userDialog').hide();"
+                                       process="@form"
+                                       update=":usersForm:usersTable,:messages"
+                                       oncomplete="if (args &amp;&amp; args.validationFailed) { return; } PF('userDialog').hide();"
                                        styleClass="p-button-success"/>
                     </div>
                 </h:form>
@@ -220,8 +222,8 @@
             <!-- Confirmation -->
             <h:form id="confirmForm">
                 <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                    <p:commandButton value="Yes" type="button" styleClass="p-button-success p-confirm-dialog-yes"/>
-                    <p:commandButton value="No" type="button" styleClass="p-button-secondary p-confirm-dialog-no"/>
+                    <p:commandButton value="Yes" type="button" icon="pi pi-check" styleClass="p-button-success ui-confirmdialog-yes"/>
+                    <p:commandButton value="No" type="button" icon="pi pi-times" styleClass="p-button-secondary ui-confirmdialog-no"/>
                 </p:confirmDialog>
             </h:form>
         </div>
