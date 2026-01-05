@@ -213,7 +213,7 @@
                                        action="#{userController.saveUser}"
                                        process="@form"
                                        update=":usersForm:usersTable,:messages"
-                                       oncomplete="if (args && args.validationFailed) { return; } PF('userDialog').hide();"
+                                       oncomplete="if (args &amp;&amp; args.validationFailed) { return; } PF('userDialog').hide();"
                                        styleClass="p-button-success"/>
                     </div>
                 </h:form>
