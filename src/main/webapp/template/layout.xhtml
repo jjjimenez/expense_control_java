@@ -27,13 +27,13 @@
                 <h:form rendered="#{authController.loggedIn}">
                     <p:menubar>
                         <p:menuitem value="Dashboard" outcome="dashboard" icon="pi pi-home"/>
-                        <p:submenu label="Administración" icon="pi pi-cog" rendered="#{authController.admin}">
-                            <p:menuitem value="Usuarios" outcome="users" icon="pi pi-users"/>
+                        <p:submenu label="Administration" icon="pi pi-cog" rendered="#{authController.admin}">
+                            <p:menuitem value="Users" outcome="users" icon="pi pi-users"/>
                         </p:submenu>
                         <p:submenu label="#{authController.currentUser.fullName}" icon="pi pi-user">
-                            <p:menuitem value="Perfil" icon="pi pi-user-edit"/>
+                            <p:menuitem value="Profile" icon="pi pi-user-edit"/>
                             <p:separator/>
-                            <p:menuitem value="Cerrar Sesión" action="#{authController.logout}" 
+                            <p:menuitem value="Log Out" action="#{authController.logout}" 
                                        icon="pi pi-sign-out" ajax="false"/>
                         </p:submenu>
                     </p:menubar>

@@ -21,7 +21,7 @@
             <div class="login-header">
                 <i class="pi pi-chart-line login-icon"></i>
                 <h1>Expense Control</h1>
-                <p>Sistema de Control de Gastos</p>
+                <p>Expense Control System</p>
             </div>
 
             <h:form styleClass="login-form">
@@ -30,27 +30,27 @@
                 <div class="p-field">
                     <span class="p-float-label">
                         <p:inputText id="username" value="#{authController.username}" 
-                                   required="true" requiredMessage="El usuario es requerido"
+                                   required="true" requiredMessage="Username is required"
                                    styleClass="login-input">
                             <f:validateLength minimum="3" maximum="50"/>
                         </p:inputText>
-                        <p:outputLabel for="username" value="Usuario"/>
+                        <p:outputLabel for="username" value="Username"/>
                     </span>
                 </div>
 
                 <div class="p-field">
                     <span class="p-float-label">
                         <p:password id="password" value="#{authController.password}" 
-                                  required="true" requiredMessage="La contraseña es requerida"
+                                  required="true" requiredMessage="Password is required"
                                   feedback="false" styleClass="login-input">
                             <f:validateLength minimum="3"/>
                         </p:password>
-                        <p:outputLabel for="password" value="Contraseña"/>
+                        <p:outputLabel for="password" value="Password"/>
                     </span>
                 </div>
 
                 <div class="login-actions">
-                    <p:commandButton value="Iniciar Sesión" 
+                    <p:commandButton value="Sign In" 
                                    action="#{authController.login}"
                                    styleClass="login-button"
                                    icon="pi pi-sign-in"
@@ -59,10 +59,10 @@
                 </div>
 
                 <div class="login-info">
-                    <p:panel header="Información de Acceso" styleClass="info-panel">
-                        <p><strong>Usuario por defecto:</strong> admin</p>
-                        <p><strong>Contraseña:</strong> admin123</p>
-                        <p><small>Este usuario se crea automáticamente si no existe ningún administrador.</small></p>
+                    <p:panel header="Access Information" styleClass="info-panel">
+                        <p><strong>Default user:</strong> admin</p>
+                        <p><strong>Password:</strong> admin123</p>
+                        <p><small>This user is created automatically if no administrator exists.</small></p>
                     </p:panel>
                 </div>
             </h:form>
