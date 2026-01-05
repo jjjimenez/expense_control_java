@@ -15,41 +15,41 @@
 
         <div class="dashboard-container">
             <h1>Dashboard</h1>
-            <p>Bienvenido, #{authController.currentUser.fullName}</p>
+            <p>Welcome, #{authController.currentUser.fullName}</p>
 
             <div class="dashboard-grid">
                 <!-- Tarjetas de información -->
                 <div class="dashboard-card">
-                    <p:panel header="Información del Usuario" styleClass="info-card">
+                    <p:panel header="User Information" styleClass="info-card">
                         <h:panelGrid columns="2" styleClass="user-info">
-                            <h:outputText value="Usuario:"/>
+                            <h:outputText value="Username:"/>
                             <h:outputText value="#{authController.currentUser.username}"/>
                             
                             <h:outputText value="Email:"/>
                             <h:outputText value="#{authController.currentUser.email}"/>
                             
-                            <h:outputText value="Rol:"/>
+                            <h:outputText value="Role:"/>
                             <h:outputText value="#{authController.currentUser.role}"/>
                             
-                            <h:outputText value="Estado:"/>
-                            <h:outputText value="#{authController.currentUser.active ? 'Activo' : 'Inactivo'}"/>
+                            <h:outputText value="Status:"/>
+                            <h:outputText value="#{authController.currentUser.active ? 'Active' : 'Inactive'}"/>
                         </h:panelGrid>
                     </p:panel>
                 </div>
 
-                <!-- Acciones rápidas -->
+                <!-- Quick actions -->
                 <div class="dashboard-card">
-                    <p:panel header="Acciones Rápidas" styleClass="actions-card">
+                    <p:panel header="Quick Actions" styleClass="actions-card">
                         <div class="quick-actions">
                             <h:form rendered="#{authController.admin}">
-                                <p:commandButton value="Gestionar Usuarios" 
+                                <p:commandButton value="Manage Users" 
                                                outcome="users"
                                                icon="pi pi-users"
                                                styleClass="p-button-outlined"/>
                             </h:form>
                             
                             <h:form>
-                                <p:commandButton value="Mi Perfil" 
+                                <p:commandButton value="My Profile" 
                                                icon="pi pi-user-edit"
                                                styleClass="p-button-outlined"
                                                disabled="true"/>
@@ -58,14 +58,14 @@
                     </p:panel>
                 </div>
 
-                <!-- Estadísticas (placeholder) -->
+                <!-- Statistics (placeholder) -->
                 <div class="dashboard-card full-width">
-                    <p:panel header="Estadísticas del Sistema" styleClass="stats-card">
+                    <p:panel header="System Statistics" styleClass="stats-card">
                         <div class="stats-grid">
                             <div class="stat-item">
                                 <i class="pi pi-users stat-icon"></i>
                                 <div class="stat-content">
-                                    <h3>Usuarios Totales</h3>
+                                    <h3>Total Users</h3>
                                     <p class="stat-number">#{userService.totalUserCount}</p>
                                 </div>
                             </div>
@@ -73,7 +73,7 @@
                             <div class="stat-item">
                                 <i class="pi pi-check-circle stat-icon"></i>
                                 <div class="stat-content">
-                                    <h3>Usuarios Activos</h3>
+                                    <h3>Active Users</h3>
                                     <p class="stat-number">#{userService.activeUserCount}</p>
                                 </div>
                             </div>
@@ -81,9 +81,9 @@
                             <div class="stat-item">
                                 <i class="pi pi-calendar stat-icon"></i>
                                 <div class="stat-content">
-                                    <h3>Fecha de Registro</h3>
+                                    <h3>Registration Date</h3>
                                     <p class="stat-text">
-                                        <h:outputText value="#{authController.currentUser.createdAt != null ? authController.currentUser.createdAt.toString() : 'No disponible'}"/>
+                                        <h:outputText value="#{authController.currentUser.createdAt != null ? authController.currentUser.createdAt.toString() : 'Not available'}"/>
                                     </p>
                                 </div>
                             </div>
