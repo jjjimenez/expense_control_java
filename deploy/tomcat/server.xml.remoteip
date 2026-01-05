@@ -1,0 +1,10 @@
+<!-- RemoteIpValve snippet for Tomcat conf/server.xml -->
+<!-- Place inside the <Engine> element to honour X-Forwarded-* headers -->
+<!-- BEGIN OPENHANDS REMOTEIPVALVE -->
+<Valve className="org.apache.catalina.valves.RemoteIpValve"
+       remoteIpHeader="x-forwarded-for"
+       protocolHeader="x-forwarded-proto"
+       portHeader="x-forwarded-port"
+       proxiesHeader="x-forwarded-by"
+       requestAttributesEnabled="true" />
+<!-- END OPENHANDS REMOTEIPVALVE -->
