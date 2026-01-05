@@ -211,8 +211,9 @@
                         <p:commandButton value="Save" 
                                        icon="pi pi-check"
                                        action="#{userController.saveUser}"
-                                       update="usersForm:usersTable"
-                                       oncomplete="if (args.validationFailed) { return; } PF('userDialog').hide();"
+                                       process="@form"
+                                       update=":usersForm:usersTable,:messages"
+                                       oncomplete="if (args && args.validationFailed) { return; } PF('userDialog').hide();"
                                        styleClass="p-button-success"/>
                     </div>
                 </h:form>
