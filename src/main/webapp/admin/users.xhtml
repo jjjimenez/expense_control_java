@@ -96,7 +96,8 @@
                         <p:commandButton icon="#{user.active ? 'pi pi-ban' : 'pi pi-check'}" 
                                        title="#{user.active ? 'Deactivate' : 'Activate'}"
                                        action="#{userController.toggleUserStatus}"
-                                       update="usersTable"
+                                       process="@this"
+                                       update=":usersForm:usersTable,:messages"
                                        styleClass="p-button-rounded p-button-text #{user.active ? 'p-button-warning' : 'p-button-success'}"
                                        disabled="#{user.id == authController.currentUser.id}">
                             <f:setPropertyActionListener target="#{userController.selectedUser}" value="#{user}"/>
