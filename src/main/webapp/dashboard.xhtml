@@ -42,10 +42,10 @@
                     <p:panel header="Quick Actions" styleClass="actions-card">
                         <div class="quick-actions">
                             <h:form rendered="#{authController.admin}">
-                                <p:commandButton value="Manage Users" 
-                                               outcome="users"
-                                               icon="pi pi-users"
-                                               styleClass="p-button-outlined"/>
+                                <p:button value="Manage Users" 
+                                          outcome="/admin/users.xhtml"
+                                          icon="pi pi-users"
+                                          styleClass="p-button-outlined"/>
                             </h:form>
                             
                             <h:form>
