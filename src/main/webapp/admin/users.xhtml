@@ -185,18 +185,18 @@
                         
                         <p:outputLabel for="password" value="Password:"/>
                         <p:password id="password" 
-                                  value="#{userController.newUser.password}"
+                                  value="#{userController.password}"
                                   required="#{!userController.editMode}"
                                   requiredMessage="Password is required"
                                   feedback="false"
                                   placeholder="#{userController.editMode ? 'Leave blank to keep current' : ''}">
-                            <f:validateLength minimum="6" disabled="#{userController.editMode and empty userController.newUser.password}"/>
+                            <f:validateLength minimum="6" disabled="#{userController.editMode and empty userController.password}"/>
                         </p:password>
                         
                         <p:outputLabel for="confirmPassword" value="Confirm Password:"/>
                         <p:password id="confirmPassword" 
                                   value="#{userController.confirmPassword}"
-                                  required="#{!userController.editMode or not empty userController.newUser.password}"
+                                  required="#{!userController.editMode or not empty userController.password}"
                                   requiredMessage="You must confirm the password"
                                   feedback="false"/>
                     </p:panelGrid>
