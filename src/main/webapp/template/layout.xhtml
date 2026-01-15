@@ -29,7 +29,9 @@
                         <p:menuitem value="Dashboard" outcome="dashboard" icon="pi pi-home"/>
                         <p:submenu label="Administration" icon="pi pi-cog" rendered="#{authController.admin}">
                             <p:menuitem value="Users" outcome="users" icon="pi pi-users"/>
+                            <p:menuitem value="Roles" outcome="roles" icon="pi pi-id-card"/>
                         </p:submenu>
+
                         <p:submenu label="#{authController.currentUser.fullName}" icon="pi pi-user">
                             <p:menuitem value="Profile" icon="pi pi-user-edit"/>
                             <p:separator/>
