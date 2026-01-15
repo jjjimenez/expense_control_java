@@ -64,12 +64,21 @@ public class AuthController implements Serializable {
         currentUser = null;
         username = null;
         password = null;
-        
-        // Invalidar sesión
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-        
-        addInfoMessage("Sesión cerrada correctamente");
-        return "login?faces-redirect=true";
+
+        FacesContext ctx = FacesContext.getCurrentInstance();
+        try {
+            // Invalidar sesión y preservar mensajes
+            ctx.getExternalContext().invalidateSession();
+            ctx.getExternalContext().getFlash().setKeepMessages(true);
+            addInfoMessage("Sesión cerrada correctamente");
+            // Redirección explícita para evitar problemas de navegación en subcarpetas (/admin)
+            ctx.getExternalContext().redirect(ctx.getExternalContext().getRequestContextPath() + "/login.xhtml");
+            ctx.responseComplete();
+            return null;
+        } catch (Exception e) {
+            // Fallback a navegación estándar si la redirección falla
+            return "/login.xhtml?faces-redirect=true";
+        }
     }
     
     public boolean isLoggedIn() {

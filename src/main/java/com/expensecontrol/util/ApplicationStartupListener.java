@@ -1,5 +1,6 @@
 package com.expensecontrol.util;
 
+import com.expensecontrol.service.RoleService;
 import com.expensecontrol.service.UserService;
 import javax.inject.Inject;
 import javax.servlet.ServletContextEvent;
@@ -11,10 +12,15 @@ public class ApplicationStartupListener implements ServletContextListener {
     
     @Inject
     private UserService userService;
+
+    @Inject
+    private RoleService roleService;
     
     @Override
     public void contextInitialized(ServletContextEvent sce) {
         try {
+            // Crear roles por defecto si no existen
+            roleService.createDefaultRolesIfNotExist();
             // Crear usuario administrador por defecto si no existe
             userService.createDefaultAdminIfNotExists();
             System.out.println("Aplicación iniciada correctamente");
